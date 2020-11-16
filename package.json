@@ -36,6 +36,12 @@
   "resolutions": {
     "node-forge": "0.10.0"
   },
+  "dependencies": {
+    "express": "^4.15.4",
+    "querystring": "^0.2.0",
+    "request": "^2.81.0",
+    "spotify-web-api-js": "^1.5.1"
+  },
   "browserslist": [
     "last 1 Chrome version"
   ]
