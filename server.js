@@ -1,8 +1,10 @@
 let express = require("express");
 let request = require("request");
 let querystring = require("querystring");
+let dotenv = require("dotenv");
 
 let app = express();
+dotenv.config();
 
 let redirect_uri = process.env.REDIRECT_URI || "http://localhost:8888/callback";
 
@@ -12,7 +14,7 @@ app.get("/login", function (req, res) {
       querystring.stringify({
         response_type: "code",
         client_id: process.env.SPOTIFY_CLIENT_ID,
-        scope: "user-read-private user-read-email user-read-playback-state",
+        scope: "user-read-private user-read-email user-read-playback-state ",
         redirect_uri,
       })
   );
