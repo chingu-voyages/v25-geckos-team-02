@@ -54,7 +54,7 @@ const useFetch = () => {
   useEffect (getUserDetails, []);
   useEffect (getRecentlyPlayed, []);
 
-  return { getUserDetails, getRecentlyPlayed, getRecommendations };
+  return { getUserDetails, getRecentlyPlayed, getRecommendations, getSearchitem };
 };
 
 export default useFetch
