@@ -40,6 +40,17 @@ const useFetch = () => {
       .catch((err) => console.log(err));
   };
 
+  const getSearchitem = () => {
+    fetch("https://api.spotify.com/v1/search", {
+      headers: { Authorization: "Bearer " + accessToken },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect (getUserDetails, []);
   useEffect (getRecentlyPlayed, []);
 
