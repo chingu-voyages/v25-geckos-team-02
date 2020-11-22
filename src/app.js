@@ -9,9 +9,11 @@ const App = () => {
         <button>Login to spotify</button>
       </a>
       <button onClick={getUserDetails}>Get your details here</button>
-      <h1>{displayName}</h1>
+
+      <h1> { displayName } </h1>
+
     </div>
-    );
+  );
 };
 
 export default App;

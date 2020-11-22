@@ -27,13 +27,23 @@ const useFetch = () => {
         const recent_songs = console.log(response.items.slice(0, 5))
       })
       .catch((err) => console.log(err));
-  }
+  };
 
+  const getRecommendations = () => {
+    fetch("https://api.spotify.com/v1/recommendations", {
+      headers: { Authorization: "Bearer " + accessToken },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect (getUserDetails, []);
   useEffect (getRecentlyPlayed, []);
 
-  return { getUserDetails, getRecentlyPlayed };
+  return { getUserDetails, getRecentlyPlayed, getRecommendations };
 };
 
 export default useFetch
