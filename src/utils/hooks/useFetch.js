@@ -1,10 +1,16 @@
 import queryString from "query-string";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const parsed = queryString.parse(location.search);
 let accessToken = parsed.access_token;
 
 const useFetch = () => {
+  const [artistId, setArtistId] = useState();
+  const [songId, setSongId] = useState();
+  const [recommendations, setRecommendations] = useState();
+
+  console.log(songId, "song ids");
+  console.log(artistId, "artist ids");
 
   const getUserDetails = () => {
     fetch("https://api.spotify.com/v1/me", {
@@ -13,7 +19,7 @@ const useFetch = () => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        console.log(response.display_name)
+        console.log(response.display_name);
       })
       .catch((err) => console.log(err));
   };
@@ -24,24 +30,32 @@ const useFetch = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        const recent_songs = console.log(response.items.slice(0, 5))
+        const recent_songs = response.items.slice(0, 5);
+        setSongId(recent_songs.slice(0, 2).map((song) => song.track.id));
+        setArtistId(
+          recent_songs.slice(0, 2).map((song) => song.track.artists[0].id)
+        );
       })
       .catch((err) => console.log(err));
   };
 
   const getRecommendations = () => {
-    fetch("https://api.spotify.com/v1/recommendations", {
-      headers: { Authorization: "Bearer " + accessToken },
-    })
+    fetch(
+      `https://api.spotify.com/v1/recommendations?limit=5&seed_artists=${artistId}&seed_tracks=${songId}`,
+      {
+        headers: { Authorization: "Bearer " + accessToken },
+      }
+    )
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        setRecommendations(response.tracks);
       })
       .catch((err) => console.log(err));
   };
 
   const getSearchitem = () => {
-    fetch("https://api.spotify.com/v1/search", {
+    fetch(`https://api.spotify.com/v1/search?`, {
       headers: { Authorization: "Bearer " + accessToken },
     })
       .then((response) => response.json())
@@ -51,12 +65,17 @@ const useFetch = () => {
       .catch((err) => console.log(err));
   };
 
-  useEffect (getUserDetails, []);
-  useEffect (getRecentlyPlayed, []);
+  useEffect(getUserDetails, []);
+  useEffect(getRecentlyPlayed, []);
+  useEffect(getRecommendations, [artistId && songId]);
 
-  return { getUserDetails, getRecentlyPlayed, getRecommendations, getSearchitem };
+  return {
+    getUserDetails,
+    getRecentlyPlayed,
+    getRecommendations,
+    getSearchitem,
+    recommendations,
+  };
 };
 
-export default useFetch
-
-
+export default useFetch;
