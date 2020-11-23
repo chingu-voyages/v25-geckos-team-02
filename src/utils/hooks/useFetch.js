@@ -57,9 +57,12 @@ const useFetch = () => {
   const getSearchItem = (query) => {
     console.log("getSearchItem is here");
 
+    // destructured variables being set to query so we can change them later
     const { track, artist, q } = query;
+    // making url available in this scope so if statements can change the value & fetch function can access those changed values
     let url;
 
+    //conditional logic that decides which url to fire off depending on which value we have
     if (track) {
       url = `https://api.spotify.com/v1/search?q=${q}&type=${track}`;
     }

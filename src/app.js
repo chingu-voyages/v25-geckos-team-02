@@ -12,14 +12,17 @@ import {
 
 const App = () => {
   const { getUserDetails, getSearchItem, displayName } = useFetch();
+  // setting some state that we can update and attach to getSearchItem variables
   const [q, setQ] = useState();
   const [track, setTrack] = useState();
   const [artist, setArtist] = useState();
 
+  // logging to check what we get on each re-render
   console.log(q);
   console.log(track);
   console.log(artist);
 
+  // function that handles submission of search form
   const handleSubmit = (e) => {
     e.preventDefault();
     getSearchItem({
@@ -29,10 +32,12 @@ const App = () => {
     });
   };
 
+  // function to handle change in the input
   const handleChange = (e) => {
     setQ(e.target.value);
   };
 
+  // function to handle the change in select
   const handleSelect = (e) => {
     if (e.target.value === "track") {
       setTrack(e.target.value);
