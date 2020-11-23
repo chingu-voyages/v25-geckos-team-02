@@ -54,8 +54,21 @@ const useFetch = () => {
       .catch((err) => console.log(err));
   };
 
-  const getSearchitem = () => {
-    fetch(`https://api.spotify.com/v1/search?`, {
+  const getSearchItem = (query) => {
+    console.log("getSearchItem is here");
+
+    const { track, artist, q } = query;
+    let url;
+
+    if (track) {
+      url = `https://api.spotify.com/v1/search?q=${q}&type=${track}`;
+    }
+
+    if (artist) {
+      url = `https://api.spotify.com/v1/search?q=${q}&type=${artist}`;
+    }
+
+    fetch(url, {
       headers: { Authorization: "Bearer " + accessToken },
     })
       .then((response) => response.json())
@@ -73,7 +86,7 @@ const useFetch = () => {
     getUserDetails,
     getRecentlyPlayed,
     getRecommendations,
-    getSearchitem,
+    getSearchItem,
     recommendations,
   };
 };
