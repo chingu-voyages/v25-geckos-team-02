@@ -54,7 +54,9 @@ const App = () => {
         <Link href="http://localhost:8888/login">
           <Button>Login to spotify</Button>
         </Link>
-        <Button onClick={getUserDetails}>Get your details here</Button>
+        <Button m="16px" onClick={getUserDetails}>
+          Get your details here
+        </Button>
         <form action="" onSubmit={handleSubmit}>
           <FormControl id="search">
             <FormLabel hidden={true}>Search</FormLabel>
@@ -69,7 +71,9 @@ const App = () => {
               <option value="track">Track</option>
               <option value="artist">Artist</option>
             </Select>
-            <Button as="button">Search</Button>
+            <Button m="16px" as="button">
+              Search
+            </Button>
           </FormControl>
         </form>
         <h1> {displayName} </h1>
