@@ -5,6 +5,7 @@ const parsed = queryString.parse(location.search);
 let accessToken = parsed.access_token;
 
 const useFetch = () => {
+  const [authToken, setAuthToken] = useState();
   const [artistId, setArtistId] = useState();
   const [songId, setSongId] = useState();
   const [recommendations, setRecommendations] = useState();
@@ -65,9 +66,12 @@ const useFetch = () => {
       .catch((err) => console.log(err));
   };
 
-  useEffect(getUserDetails, []);
-  useEffect(getRecentlyPlayed, []);
+  useEffect(getUserDetails, [accessToken]);
+  useEffect(getRecentlyPlayed, [accessToken]);
   useEffect(getRecommendations, [artistId && songId]);
+  useEffect(() => {
+    setAuthToken(accessToken);
+  }, [accessToken]);
 
   return {
     getUserDetails,
@@ -75,6 +79,8 @@ const useFetch = () => {
     getRecommendations,
     getSearchitem,
     recommendations,
+    authToken,
+    setAuthToken,
   };
 };
 
