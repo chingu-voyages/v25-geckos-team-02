@@ -1,7 +1,11 @@
 {
   "rules": {
     "no-console": 1,
-    "no-unused-vars": 1
+    "no-unused-vars": 1,
+    "react/prop-types": [
+      "enabled",
+      { "ignore": "ignore", "customValidators": "customValidator" }
+    ]
   },
   "env": {
     "es6": true,
