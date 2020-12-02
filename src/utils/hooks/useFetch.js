@@ -8,6 +8,7 @@ const useFetch = () => {
   const [authToken, setAuthToken] = useState();
   const [artistId, setArtistId] = useState();
   const [songId, setSongId] = useState();
+  const [recentlyPlayed, setRecentlyPlayed] = useState();
   const [recommendations, setRecommendations] = useState([]);
   const [trackResults, setTrackResults] = useState();
   const [artistResults, setArtistResults] = useState();
@@ -29,10 +30,12 @@ const useFetch = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        const recent_songs = response.items.slice(0, 5);
-        setSongId(recent_songs.slice(0, 2).map((song) => song.track.id));
+        const recentSongs = response.items.slice(0, 5);
+        console.log(recentSongs);
+        setRecentlyPlayed(recentSongs);
+        setSongId(recentSongs.slice(0, 2).map((song) => song.track.id));
         setArtistId(
-          recent_songs.slice(0, 2).map((song) => song.track.artists[0].id)
+          recentSongs.slice(0, 2).map((song) => song.track.artists[0].id)
         );
       })
       .catch((err) => console.log(err));
@@ -48,7 +51,7 @@ const useFetch = () => {
       .then((response) => response.json())
       .then((response) => {
         setRecommendations(response.tracks);
-        console.log(response.tracks);
+        console.log(response);
       })
       .catch((err) => console.log(err));
   };
@@ -101,6 +104,7 @@ const useFetch = () => {
     getRecentlyPlayed,
     getRecommendations,
     getSearchItem,
+    recentlyPlayed,
     recommendations,
     authToken,
     setAuthToken,
