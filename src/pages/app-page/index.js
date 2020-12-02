@@ -1,14 +1,12 @@
-import { navigate } from "@reach/router";
 import React from "react";
-import useFetch from "../../utils/hooks/useFetch";
-import Search from "../../components/search";
-import Recommendations from "../../components/card/recommendations";
+import Header from "./header";
+import Main from "./main";
 
 const App = () => {
   return (
     <>
-      <Search />
-      <Recommendations />
+      <Header />
+      <Main />
     </>
   );
 };
