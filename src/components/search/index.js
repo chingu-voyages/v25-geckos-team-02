@@ -1,5 +1,11 @@
 import React from "react";
-import { Input, FormControl, FormLabel, Button, Select } from "@chakra-ui/react"
+import {
+  Input,
+  FormControl,
+  FormLabel,
+  Button,
+  Select,
+} from "@chakra-ui/react";
 import useFetch from "../../utils/hooks/useFetch";
 import { useState } from "react";
 
@@ -9,11 +15,6 @@ const Search = () => {
   const [q, setQ] = useState();
   const [track, setTrack] = useState();
   const [artist, setArtist] = useState();
-
-  // logging to check what we get on each re-render
-  console.log(q);
-  console.log(track);
-  console.log(artist);
 
   // function that handles submission of search form
   const handleSubmit = (e) => {
@@ -44,16 +45,23 @@ const Search = () => {
   return (
     <form action="" onSubmit={handleSubmit}>
       <FormControl id="email">
-      <FormLabel hidden={true}>Search</FormLabel>
-      <Input type="text" placeholder="search by track or artist" w={{base: "40rem"}} onChange={handleChange}/>
+        <FormLabel hidden={true}>Search</FormLabel>
+        <Input
+          type="text"
+          placeholder="search by track or artist"
+          w={{ base: "40rem" }}
+          onChange={handleChange}
+        />
       </FormControl>
       <Select placeholder="choose track or artist" onChange={handleSelect}>
         <option value="track">Track</option>
         <option value="artist">Artist</option>
       </Select>
-      <Button as="button" colorScheme="blue" variant="outline">Submit</Button>
+      <Button as="button" colorScheme="blue" variant="outline">
+        Submit
+      </Button>
     </form>
-  )
-}
+  );
+};
 
 export default Search;
