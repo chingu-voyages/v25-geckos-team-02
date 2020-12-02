@@ -13,16 +13,14 @@ const Search = () => {
   const { getUserDetails, getSearchItem, displayName } = useFetch();
   // setting some state that we can update and attach to getSearchItem variables
   const [q, setQ] = useState();
-  const [track, setTrack] = useState();
-  const [artist, setArtist] = useState();
+  const [select, setSelect] = useState();
 
   // function that handles submission of search form
   const handleSubmit = (e) => {
     e.preventDefault();
     getSearchItem({
       q: q,
-      track: track,
-      artist: artist,
+      select: select,
     });
   };
 
@@ -34,11 +32,11 @@ const Search = () => {
   // function to handle the change in select
   const handleSelect = (e) => {
     if (e.target.value === "track") {
-      setTrack(e.target.value);
+      setSelect("track");
     }
 
     if (e.target.value === "artist") {
-      setArtist(e.target.value);
+      setSelect("artist");
     }
   };
 

@@ -8,10 +8,9 @@ const useFetch = () => {
   const [authToken, setAuthToken] = useState();
   const [artistId, setArtistId] = useState();
   const [songId, setSongId] = useState();
-  const [recommendations, setRecommendations] = useState();
-
-  console.log(songId, "song ids");
-  console.log(artistId, "artist ids");
+  const [recommendations, setRecommendations] = useState([]);
+  const [trackResults, setTrackResults] = useState();
+  const [artistResults, setArtistResults] = useState();
 
   const getUserDetails = () => {
     fetch("https://api.spotify.com/v1/me", {
@@ -19,7 +18,6 @@ const useFetch = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         console.log(response.display_name);
       })
       .catch((err) => console.log(err));
@@ -49,8 +47,8 @@ const useFetch = () => {
     )
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setRecommendations(response.tracks);
+        console.log(response.tracks);
       })
       .catch((err) => console.log(err));
   };
@@ -59,17 +57,17 @@ const useFetch = () => {
     console.log("getSearchItem is here");
 
     // destructured variables being set to query so we can change them later
-    const { track, artist, q } = query;
+    const { select, q } = query;
     // making url available in this scope so if statements can change the value & fetch function can access those changed values
     let url;
 
     //conditional logic that decides which url to fire off depending on which value we have
-    if (track) {
-      url = `https://api.spotify.com/v1/search?q=${q}&type=${track}`;
+    if (select === "track") {
+      url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
     }
 
-    if (artist) {
-      url = `https://api.spotify.com/v1/search?q=${q}&type=${artist}`;
+    if (select === "artist") {
+      url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
     }
 
     fetch(url, {
@@ -78,6 +76,15 @@ const useFetch = () => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        //setSearchResults(response);
+        if (response.tracks) {
+          console.log("tracks!!!");
+          setTrackResults(response.tracks.items);
+        }
+        if (response.artists) {
+          console.log("artists!!!");
+          setArtistResults(response.artists.items);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -97,6 +104,8 @@ const useFetch = () => {
     recommendations,
     authToken,
     setAuthToken,
+    trackResults,
+    artistResults,
   };
 };
 
