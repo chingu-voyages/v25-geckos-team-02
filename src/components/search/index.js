@@ -5,6 +5,9 @@ import {
   FormLabel,
   Button,
   Select,
+  Flex,
+  Box,
+  Heading,
 } from "@chakra-ui/react";
 import useFetch from "../../utils/hooks/useFetch";
 import { useState } from "react";
@@ -41,24 +44,33 @@ const Search = () => {
   };
 
   return (
-    <form action="" onSubmit={handleSubmit}>
-      <FormControl id="email">
-        <FormLabel hidden={true}>Search</FormLabel>
-        <Input
-          type="text"
-          placeholder="search by track or artist"
-          w={{ base: "40rem" }}
-          onChange={handleChange}
-        />
-      </FormControl>
-      <Select placeholder="choose track or artist" onChange={handleSelect}>
-        <option value="track">Track</option>
-        <option value="artist">Artist</option>
-      </Select>
-      <Button as="button" colorScheme="blue" variant="outline">
-        Submit
-      </Button>
-    </form>
+    <Box mb="32px">
+      <Heading>Search</Heading>
+      <form action="" onSubmit={handleSubmit}>
+        <Flex w={{ base: "70%" }}>
+          <FormControl id="search">
+            <FormLabel hidden={true}>Search by track or artist</FormLabel>
+            <Input
+              type="text"
+              placeholder="Search by track or artist"
+              w={{ base: "40rem" }}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <Select
+            w={{ base: "20rem" }}
+            placeholder="Choose track or artist"
+            onChange={handleSelect}
+          >
+            <option value="track">Track</option>
+            <option value="artist">Artist</option>
+          </Select>
+          <Button as="button" colorScheme="blue" variant="outline">
+            Submit
+          </Button>
+        </Flex>
+      </form>
+    </Box>
   );
 };
 

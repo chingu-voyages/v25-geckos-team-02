@@ -9,7 +9,7 @@ const Header = () => {
       h="10vh"
       w="100%"
       m="auto"
-      mb="64px"
+      mb="32px"
       p="16px"
       borderBottom="2px solid"
       borderBottomColor="grey.200"

@@ -5,7 +5,7 @@ import { Box } from "@chakra-ui/react";
 
 const Main = () => {
   return (
-    <Box as="main" w="70%">
+    <Box as="main" w="70%" p="16px">
       <Search />
       <Recommendations />
     </Box>
