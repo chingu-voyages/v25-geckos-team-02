@@ -5,6 +5,7 @@ const parsed = queryString.parse(location.search);
 let accessToken = parsed.access_token;
 
 const useFetch = () => {
+  const [username, setUserName] = useState();
   const [authToken, setAuthToken] = useState();
   const [artistId, setArtistId] = useState();
   const [songId, setSongId] = useState();
@@ -19,7 +20,7 @@ const useFetch = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response.display_name);
+        setUserName(response.display_name);
       })
       .catch((err) => console.log(err));
   };
@@ -106,6 +107,7 @@ const useFetch = () => {
     getSearchItem,
     recentlyPlayed,
     recommendations,
+    username,
     authToken,
     setAuthToken,
     trackResults,

@@ -13,14 +13,11 @@ const Recommendations = () => {
       <Flex
         as="li"
         direction="column"
-        // bg="red.200"
         listStyleType="none"
         w="300px"
-        h="320px"
         objectFit="cover"
-        justify="space-evenly"
-        p="8px"
-        // align="center"
+        justify="center"
+        p="32px"
       >
         <Image src={image} />
         <Box>
@@ -32,20 +29,20 @@ const Recommendations = () => {
   };
 
   return (
-    <Box>
+    <Box as="section">
       {recentlyPlayed && (
-        <Box w="70%" m="auto" my="64px">
+        <Box w="100%" m="auto" my="16px">
           <Heading fontWeight="bold">You've recently listened to</Heading>
-          <Flex as="ul" w="100%" justify="space-evenly">
+          <Flex as="ul" w="100%" justify="space-evenly" align="center">
             {recentlyPlayed.map((track) => (
               <Card key={track.id} {...track.track} />
             ))}
           </Flex>
         </Box>
       )}
-      <Box w="70%" m="auto">
+      <Box w="100%" m="auto">
         <Heading fontWeight="bold">We think you should listen to</Heading>
-        <Flex as="ul" w="100%" justify="space-evenly">
+        <Flex as="ul" w="100%" justify="space-evenly" align="center">
           {recommendations &&
             recommendations.map((track) => <Card key={track.id} {...track} />)}
         </Flex>
