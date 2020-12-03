@@ -9,6 +9,7 @@ const useFetch = () => {
   const [artistId, setArtistId] = useState();
   const [songId, setSongId] = useState();
   const [recommendations, setRecommendations] = useState();
+  const [searchResults, setSearchResults] = useState();
 
   console.log(songId, "song ids");
   console.log(artistId, "artist ids");
@@ -78,6 +79,7 @@ const useFetch = () => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        setSearchResults(response);
       })
       .catch((err) => console.log(err));
   };
@@ -97,6 +99,7 @@ const useFetch = () => {
     recommendations,
     authToken,
     setAuthToken,
+    searchResults,
   };
 };
 
