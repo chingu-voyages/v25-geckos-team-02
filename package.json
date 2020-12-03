@@ -52,6 +52,7 @@
     "querystring": "^0.2.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-icons": "^4.1.0",
     "request": "^2.81.0",
     "spotify-web-api-js": "^1.5.1"
   },

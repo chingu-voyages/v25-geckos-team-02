@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Flex, Box, Text, Image, Heading } from "@chakra-ui/react";
+import { Flex, Box, Text, Image, Heading, IconButton } from "@chakra-ui/react";
 import useFetch from "../../../utils/hooks/useFetch";
+import { MdPlayArrow, MdPause, MdPlaylistAdd } from "react-icons/md";
 
 const Recommendations = () => {
   const { recommendations, recentlyPlayed } = useFetch();
+  const [playing, setPlaying] = useState(false);
+
+  const handleClick = () => {
+    setPlaying(!playing);
+  };
 
   const Card = ({ album, name, artists }) => {
     console.log(album);
@@ -20,10 +26,27 @@ const Recommendations = () => {
         p="32px"
       >
         <Image src={image} />
-        <Box>
-          <Text mt="8px">{name}</Text>
-          <Text fontWeight="bold">{artist}</Text>
-        </Box>
+        <Flex w="100%" justify="space-between">
+          <Box>
+            <Text mt="8px">{name}</Text>
+            <Text fontWeight="bold">{artist}</Text>
+          </Box>
+          <Flex align="center">
+            <IconButton
+              onClick={handleClick}
+              variant="ghost"
+              colorScheme="gray.700"
+              fontSize="20px"
+              icon={playing ? <MdPause /> : <MdPlayArrow />}
+            />
+            <IconButton
+              variant="ghost"
+              colorScheme="gray.700"
+              fontSize="20px"
+              icon={<MdPlaylistAdd />}
+            />
+          </Flex>
+        </Flex>
       </Flex>
     );
   };
