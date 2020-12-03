@@ -1,6 +1,6 @@
 import { theme } from "@chakra-ui/react";
 
-customTheme = {
+const customTheme = {
   ...theme,
   styles: {
     global: (props) => ({
