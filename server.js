@@ -6,7 +6,7 @@ let dotenv = require("dotenv");
 let app = express();
 dotenv.config();
 
-let redirect_uri = process.env.REDIRECT_URI || "http://localhost:8888/callback";
+let redirect_uri = process.env.REDIRECT_URI || "http://localhost:5000/callback";
 
 app.get("/login", function (req, res) {
   res.redirect(
@@ -47,7 +47,7 @@ app.get("/callback", function (req, res) {
   });
 });
 
-let port = process.env.PORT || 8888;
+let port = process.env.PORT || 5000;
 console.log(
   `Listening on port ${port}. Go /login to initiate authentication flow.`
 );
