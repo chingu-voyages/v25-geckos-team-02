@@ -12,7 +12,6 @@ const Recommendations = () => {
   };
 
   const Card = ({ album, name, artists }) => {
-    console.log(album);
     const image = album.images[0].url;
     const artist = artists[0].name;
     return (
@@ -58,7 +57,7 @@ const Recommendations = () => {
           <Heading fontWeight="bold">You've recently listened to</Heading>
           <Flex as="ul" w="100%" justify="space-evenly" align="center">
             {recentlyPlayed.map((track) => (
-              <Card key={track.id} {...track.track} />
+              <Card key={track.track.id} {...track.track} />
             ))}
           </Flex>
         </Box>
