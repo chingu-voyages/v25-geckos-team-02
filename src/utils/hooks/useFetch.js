@@ -5,9 +5,11 @@ const parsed = queryString.parse(location.search);
 let accessToken = parsed.access_token;
 
 const useFetch = () => {
+  const [authToken, setAuthToken] = useState();
   const [artistId, setArtistId] = useState();
   const [songId, setSongId] = useState();
   const [recommendations, setRecommendations] = useState();
+  const [searchResults, setSearchResults] = useState();
 
   console.log(songId, "song ids");
   console.log(artistId, "artist ids");
@@ -54,27 +56,50 @@ const useFetch = () => {
       .catch((err) => console.log(err));
   };
 
-  const getSearchitem = () => {
-    fetch(`https://api.spotify.com/v1/search?`, {
+  const getSearchItem = (query) => {
+    console.log("getSearchItem is here");
+
+    // destructured variables being set to query so we can change them later
+    const { track, artist, q } = query;
+    // making url available in this scope so if statements can change the value & fetch function can access those changed values
+    let url;
+
+    //conditional logic that decides which url to fire off depending on which value we have
+    if (track) {
+      url = `https://api.spotify.com/v1/search?q=${q}&type=${track}`;
+    }
+
+    if (artist) {
+      url = `https://api.spotify.com/v1/search?q=${q}&type=${artist}`;
+    }
+
+    fetch(url, {
       headers: { Authorization: "Bearer " + accessToken },
     })
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        setSearchResults(response);
       })
       .catch((err) => console.log(err));
   };
 
-  useEffect(getUserDetails, []);
-  useEffect(getRecentlyPlayed, []);
+  useEffect(getUserDetails, [accessToken]);
+  useEffect(getRecentlyPlayed, [accessToken]);
   useEffect(getRecommendations, [artistId && songId]);
+  useEffect(() => {
+    setAuthToken(accessToken);
+  }, [accessToken]);
 
   return {
     getUserDetails,
     getRecentlyPlayed,
     getRecommendations,
-    getSearchitem,
+    getSearchItem,
     recommendations,
+    authToken,
+    setAuthToken,
+    searchResults,
   };
 };
 
