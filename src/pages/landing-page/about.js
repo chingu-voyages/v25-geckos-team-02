@@ -16,7 +16,7 @@ const SectionOneContent = () => {
     <div className="section-1">
       <Heading as="h1" size="4xl">The A-List</Heading>
       <Heading as="h2" size="xl">Discover new songs and artists based on your favourites</Heading>
-      <Button ref={this.sectionRef} colorScheme="blue">Find out more</Button>
+      <Button colorScheme="blue">Find out more</Button>
     </div>
 
   );
