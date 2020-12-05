@@ -6,7 +6,7 @@
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
     "clean": "rm dist/bundle.js",
-    "start": " node server.js parcel src/index.html",
+    "start": "parcel src/index.html",
     "heroku-postbuild": "parcel build src/index.html",
     "test": "jest"
   },
