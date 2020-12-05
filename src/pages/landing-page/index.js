@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
 import "fullpage.js/vendors/scrolloverflow";
 import ReactFullpage from "@fullpage/react-fullpage";
-import "../landing-page/styles.css";
+import "./styles.css";
 import useFetch from "../../utils/hooks/useFetch";
 // import navbar
 import SectionOneContent from "./about";
@@ -32,9 +32,15 @@ const FullpageWrapper = () => (
     render={({ state, fullpageApi }) => {
       return (
         <div>
-          <MySection className="section-one" content={ ("About", (<SectionOneContent />))} />
-          <MySection className="section-two" content={ "How" } />
-          <MySection className="section-three" content={("Enter!", (<LoginButton />))} />
+          <MySection
+            className="section-one"
+            content={("About", (<SectionOneContent />))}
+          />
+          <MySection className="section-two" content={"How"} />
+          <MySection
+            className="section-three"
+            content={("Enter!", (<LoginButton />))}
+          />
         </div>
       );
     }}

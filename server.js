@@ -6,7 +6,7 @@ let dotenv = require("dotenv");
 let app = express();
 dotenv.config();
 
-let redirect_uri = process.env.REDIRECT_URI || "http://localhost:8000/callback";
+let redirect_uri = process.env.REDIRECT_URI || "http://localhost:8888/callback";
 
 app.get("/login", function (req, res) {
   res.redirect(
@@ -14,7 +14,8 @@ app.get("/login", function (req, res) {
       querystring.stringify({
         response_type: "code",
         client_id: process.env.SPOTIFY_CLIENT_ID,
-        scope: "user-read-private user-read-email user-read-playback-state user-read-recently-played",
+        scope:
+          "user-read-private user-read-email user-read-playback-state user-read-recently-played",
         redirect_uri,
       })
   );
@@ -47,7 +48,7 @@ app.get("/callback", function (req, res) {
   });
 });
 
-let port = process.env.PORT || 8000;
+let port = process.env.PORT || 8888;
 console.log(
   `Listening on port ${port}. Go /login to initiate authentication flow.`
 );
