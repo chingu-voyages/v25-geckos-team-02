@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Flex, Box, Text, Image, Heading, IconButton } from "@chakra-ui/react";
 import useFetch from "../../../utils/hooks/useFetch";
 import { MdPlayArrow, MdPause, MdPlaylistAdd } from "react-icons/md";
@@ -62,13 +62,17 @@ const Recommendations = () => {
           </Flex>
         </Box>
       )}
-      <Box w="100%" m="auto">
-        <Heading fontWeight="bold">We think you should listen to</Heading>
-        <Flex as="ul" w="100%" justify="space-evenly" align="center">
-          {recommendations &&
-            recommendations.map((track) => <Card key={track.id} {...track} />)}
-        </Flex>
-      </Box>
+      {recommendations && (
+        <Box w="100%" m="auto">
+          <Heading fontWeight="bold">We think you should listen to</Heading>
+          <Flex as="ul" w="100%" justify="space-evenly" align="center">
+            {recommendations &&
+              recommendations.map((track) => (
+                <Card key={track.id} {...track} />
+              ))}
+          </Flex>
+        </Box>
+      )}
     </Box>
   );
 };

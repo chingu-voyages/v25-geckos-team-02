@@ -9,7 +9,7 @@ import SectionOneContent from "./about";
 
 const LoginButton = () => {
   return (
-    <a href="https://v25-geckos-server.herokuapp.com/login">
+    <a href="http://localhost:8888/login">
       <button>Login to spotify</button>
     </a>
   );
