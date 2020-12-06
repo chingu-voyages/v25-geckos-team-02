@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
 import "fullpage.js/vendors/scrolloverflow";
 import ReactFullpage from "@fullpage/react-fullpage";
-import "../landing-page/styles.css";
+import "./styles.css";
 import useFetch from "../../utils/hooks/useFetch";
+// import navbar
+import SectionOneContent from "./about";
 
 const LoginButton = () => {
   return (
-    <a href="http://localhost:8888/login">
+    <a href="https://v25-geckos-server.herokuapp.com/login">
       <button>Login to spotify</button>
     </a>
   );
@@ -26,13 +28,19 @@ class MySection extends React.Component {
 const FullpageWrapper = () => (
   <ReactFullpage
     navigation
-    sectionsColor={["#282c34", "#ff5f45", "#0798ec"]}
+    sectionsColor={["#44778c", "#ff5f45", "#0798ec"]}
     render={({ state, fullpageApi }) => {
       return (
         <div>
-          <MySection content={"About the A-List"} />
-          <MySection content={"How the A-List Works"} />
-          <MySection content={("Check out our App!", (<LoginButton />))} />
+          <MySection
+            className="section-one"
+            content={("About", (<SectionOneContent />))}
+          />
+          <MySection className="section-two" content={"How"} />
+          <MySection
+            className="section-three"
+            content={("Enter!", (<LoginButton />))}
+          />
         </div>
       );
     }}
