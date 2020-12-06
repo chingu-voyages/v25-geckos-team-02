@@ -6,7 +6,7 @@ import ResultsCard from "../../../components/card/results";
 
 const Main = () => {
   return (
-    <Box as="main" w="70%" p="16px">
+    <Box as="main" w="100%" p="16px">
       <Search />
       <ResultsCard />
       <Recommendations />
