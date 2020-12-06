@@ -27,7 +27,6 @@ const Recommendations = () => {
         borderBottom="1px solid"
         borderBottomColor="gray.300"
         mb="4px"
-        // p="32px"
       >
         <Image
           mr="16px"
@@ -60,8 +59,12 @@ const Recommendations = () => {
   return (
     <Box as="section">
       {recentlyPlayed && (
-        <Box w={{ base: "100%", md: "80%", lg: "60%", xl: "40%" }} my="16px">
-          <Heading fontWeight="bold">You've recently listened to</Heading>
+        <Box
+          w="100%"
+          // w={{ base: "100%", md: "80%", lg: "60%", xl: "40%" }}
+          my="32px"
+        >
+          <Heading mb="16px">You've recently listened to</Heading>
           <Flex direction="column" as="ul" w="100%" justify="space-evenly">
             {recentlyPlayed.map((track) => (
               <Card key={track.track.id} {...track.track} />
@@ -70,8 +73,11 @@ const Recommendations = () => {
         </Box>
       )}
       {recommendations && (
-        <Box w={{ base: "100%", md: "80%", lg: "60%", xl: "40%" }}>
-          <Heading fontWeight="bold">We think you should listen to</Heading>
+        <Box
+          w="100%"
+          // w={{ base: "100%", md: "80%", lg: "60%", xl: "40%" }}
+        >
+          <Heading mb="16px">We think you should listen to</Heading>
           <Flex direction="column" as="ul" w="100%" justify="space-evenly">
             {recommendations &&
               recommendations.map((track) => (
