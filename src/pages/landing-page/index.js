@@ -6,11 +6,16 @@ import "./styles.css";
 import useFetch from "../../utils/hooks/useFetch";
 // import navbar
 import SectionOneContent from "./about";
+import SectionTwoContent from "./howitworks";
+import { Button, Heading, Text } from "@chakra-ui/react";
+
 
 const LoginButton = () => {
   return (
     <a href="http://localhost:8888/login">
-      <button>Login to spotify</button>
+      <button>
+        <Heading as="h1" size="4xl">Listen now</Heading>
+      </button>
     </a>
   );
 };
@@ -28,18 +33,23 @@ class MySection extends React.Component {
 const FullpageWrapper = () => (
   <ReactFullpage
     navigation
-    sectionsColor={["#44778c", "#ff5f45", "#0798ec"]}
+    licenseKey="EFFB36A8-2EAB41BF-A372DE30-1008A97B"
+    sectionsColor={[ "#44778c", "#d8725b", "#d9ccc4"]}
+
     render={({ state, fullpageApi }) => {
       return (
         <div>
           <MySection
             className="section-one"
-            content={("About", (<SectionOneContent />))}
+            content={(<SectionOneContent />)}
           />
-          <MySection className="section-two" content={"How"} />
+          <MySection
+            className="section-two"
+            content={(<SectionTwoContent />)}
+          />
           <MySection
             className="section-three"
-            content={("Enter!", (<LoginButton />))}
+            content={(<LoginButton />)}
           />
         </div>
       );
@@ -61,5 +71,9 @@ const LandingPage = () => {
 
   return <FullpageWrapper />;
 };
+
+
+
+
 
 export default LandingPage;

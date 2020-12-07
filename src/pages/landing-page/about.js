@@ -1,30 +1,23 @@
 import React from "react";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import ReactFullpage from '@fullpage/react-fullpage';
+import SectionTwoContent from "./howitworks";
 
-
-// class SectionOne extends React.Component {
-//   constructor(props) {
-//     super(props)
-
-//     this.sectionRef = React.createRef();
-//   }
-
-// }
 
 const SectionOneContent = () => {
+
   return (
     <div className="section-1">
       <Heading as="h1" size="4xl">The A-List</Heading>
-      <Heading as="h2" size="xl">Discover new songs and artists based on your favourites</Heading>
-      <Button colorScheme="blue">Find out more</Button>
+      <Heading as="h2" size="xl" mt="40px">Discover new songs and artists based on your favourites</Heading>
+      <Button colorScheme="blue" mt="40px" onClick={() => this.props.fullpageApi.moveSectionDown()}>
+        Find out more
+      </Button>
     </div>
-
   );
 }
 
 export default SectionOneContent;
-
-
 
 
 
