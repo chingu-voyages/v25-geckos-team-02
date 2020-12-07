@@ -4,13 +4,7 @@ import useFetch from "../../../utils/hooks/useFetch";
 import CardAvatar from "./CardAvatar";
 
 const ResultsCard = () => {
-  const { artistResults, trackResults } = useFetch();
-
-  useEffect(() => {
-    if (artistResults) {
-      console.log(artistResults);
-    }
-  }, [artistResults]);
+  const { artistResults } = useFetch();
 
   const Card = ({ name, images }) => {
     return (
@@ -24,11 +18,12 @@ const ResultsCard = () => {
   };
 
   return (
-    <>
+    <Box>
+      {artistResults && <Text>Hello</Text>}
       {artistResults &&
         artistResults.map((artist) => <Card {...artist} key={artist.id} />)}
       <Text>Cards here</Text>
-    </>
+    </Box>
   );
 };
 

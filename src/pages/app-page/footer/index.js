@@ -4,7 +4,12 @@ import { FaGithub } from "react-icons/fa";
 
 const AyanLink = () => {
   return (
-    <Link href="https://github.com/anya91m" target="_blank" method="get">
+    <Link
+      color="purple.500"
+      href="https://github.com/anya91m"
+      target="_blank"
+      method="get"
+    >
       Ayan Ali
     </Link>
   );
@@ -12,7 +17,12 @@ const AyanLink = () => {
 
 const GregLink = () => {
   return (
-    <Link href="https://github.com/gregogun" target="_blank" method="get">
+    <Link
+      color="purple.500"
+      href="https://github.com/gregogun"
+      target="_blank"
+      method="get"
+    >
       Greg Ogun
     </Link>
   );

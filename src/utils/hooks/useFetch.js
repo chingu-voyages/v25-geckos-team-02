@@ -11,8 +11,10 @@ const useFetch = () => {
   const [songId, setSongId] = useState();
   const [recentlyPlayed, setRecentlyPlayed] = useState();
   const [recommendations, setRecommendations] = useState([]);
-  const [trackResults, setTrackResults] = useState();
-  const [artistResults, setArtistResults] = useState();
+  // const [q, setQ] = useState();
+  // const [select, setSelect] = useState();
+  const [trackResults, setTrackResults] = useState([]);
+  const [artistResults, setArtistResults] = useState([]);
 
   const getUserDetails = () => {
     fetch("https://api.spotify.com/v1/me", {
@@ -32,7 +34,6 @@ const useFetch = () => {
       .then((response) => response.json())
       .then((response) => {
         const recentSongs = response.items.slice(0, 5);
-        console.log(recentSongs);
         setRecentlyPlayed(recentSongs);
         setSongId(recentSongs.slice(0, 2).map((song) => song.track.id));
         setArtistId(
@@ -52,7 +53,6 @@ const useFetch = () => {
       .then((response) => response.json())
       .then((response) => {
         setRecommendations(response.tracks);
-        console.log(response);
       })
       .catch((err) => console.log(err));
   };
@@ -60,12 +60,10 @@ const useFetch = () => {
   const getSearchItem = (query) => {
     console.log("getSearchItem is here");
 
-    // destructured variables being set to query so we can change them later
     const { select, q } = query;
-    // making url available in this scope so if statements can change the value & fetch function can access those changed values
+
     let url;
 
-    //conditional logic that decides which url to fire off depending on which value we have
     if (select === "track") {
       url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
     }
@@ -74,20 +72,30 @@ const useFetch = () => {
       url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
     }
 
-    fetch(url, {
-      headers: { Authorization: "Bearer " + accessToken },
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        //setSearchResults(response);
-        if (response.tracks) {
-          console.log("tracks!!!");
-          setTrackResults(response.tracks.items);
+    const getItems = async () => {
+      const response = await fetch(url, {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+
+      if (response.status !== 200) {
+        throw new Error("cannot fetch data");
+      }
+
+      const data = response.json();
+
+      return data;
+    };
+
+    getItems()
+      .then((data) => {
+        // setSearchResults(data);
+        if (data.tracks) {
+          console.log(data.tracks.items);
+          setTrackResults(data.tracks.items);
         }
-        if (response.artists) {
-          console.log("artists!!!");
-          setArtistResults(response.artists.items);
+        if (data.artists) {
+          console.log(data.artists.items);
+          setArtistResults(data.artists.items);
         }
       })
       .catch((err) => console.log(err));
@@ -112,6 +120,8 @@ const useFetch = () => {
     setAuthToken,
     trackResults,
     artistResults,
+    // setQ,
+    // setSelect,
   };
 };
 

@@ -5,7 +5,7 @@ import { MdPlayArrow, MdPause, MdPlaylistAdd } from "react-icons/md";
 import { convertMs } from "../../../utils";
 
 const Recommendations = () => {
-  const { recommendations, recentlyPlayed } = useFetch();
+  const { recommendations, recentlyPlayed, trackResults } = useFetch();
   const [playing, setPlaying] = useState(false);
 
   const handleClick = () => {
@@ -57,7 +57,7 @@ const Recommendations = () => {
   };
 
   return (
-    <Box as="section">
+    <Box w={{ base: "100%", lg: "none" }} as="section">
       {recentlyPlayed && (
         <Box
           w="100%"
