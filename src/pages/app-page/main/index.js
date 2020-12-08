@@ -8,13 +8,11 @@ const Main = () => {
   return (
     <Box as="main" w="100%" p="16px">
       <Flex
-        // bg="lightyellow"
+        w="100%"
         justify="space-between"
         direction={{ base: "column", lg: "row" }}
       >
-        <Box w={{ base: "100%", lg: "none" }}>
-          <Search />
-        </Box>
+        <Search />
         <Recommendations />
       </Flex>
     </Box>

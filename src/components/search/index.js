@@ -36,7 +36,7 @@ const Result = ({ images, name }) => {
             borderRadius="full"
             boxSize="20px"
             objectFit="cover"
-            src={images[0] ? image : "https://via.placeholder.com/150"}
+            src={image ? image : "https://via.placeholder.com/150"}
             alt={name}
           />
           <Text>{name}</Text>
@@ -77,35 +77,41 @@ const Search = () => {
   };
 
   return (
-    <Box w="100%" mb="32px">
-      <Heading>Search</Heading>
-      <Flex w={{ base: "100%" }} mb="4px">
-        <FormControl id="search">
-          <FormLabel hidden={true}>Search by track or artist</FormLabel>
-          <InputGroup>
-            <InputRightElement pointerEvents="none" children={<SearchIcon />} />
-            <Input
-              autoComplete="off"
-              variant="flushed"
-              type="text"
-              placeholder="Search by track or artist"
-              //w={{ base: "70%" }}
-              onChange={handleChange}
-            />
-          </InputGroup>
-        </FormControl>
-        <Select
-          variant="flushed"
-          //w={{ base: "30%" }}
-          defaultValue="artist"
-          onChange={handleSelect}
-        >
-          <option value="track">Track</option>
-          <option value="artist">Artist</option>
-        </Select>
+    <Box w={{ base: "100%", lg: "48%" }} mb="32px">
+      <Heading mb="16px">Search</Heading>
+      <Flex w={{ base: "100%" }} mb="4px" justify="space-between">
+        <Box w="82%">
+          <FormControl id="search">
+            <FormLabel hidden={true}>Search by track or artist</FormLabel>
+            <InputGroup>
+              <InputRightElement
+                pointerEvents="none"
+                children={<SearchIcon />}
+              />
+              <Input
+                autoComplete="off"
+                variant="flushed"
+                type="text"
+                placeholder="Search by track or artist"
+                //w={{ base: "70%" }}
+                onChange={handleChange}
+              />
+            </InputGroup>
+          </FormControl>
+        </Box>
+        <Box w="15%">
+          <Select
+            variant="flushed"
+            defaultValue="artist"
+            onChange={handleSelect}
+          >
+            <option value="track">Track</option>
+            <option value="artist">Artist</option>
+          </Select>
+        </Box>
       </Flex>
       {artistResults && q && (
-        <List overflowY="auto" maxH="500px">
+        <List overflowY="auto" maxH="320px">
           {artistResults.map((artist) => (
             <Result key={artist.id} {...artist} />
           ))}
