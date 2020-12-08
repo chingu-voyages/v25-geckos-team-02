@@ -10,8 +10,8 @@ import {
   Text,
   Heading,
   InputGroup,
-  InputRightElement,
   List,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import useFetch from "../../utils/hooks/useFetch";
@@ -39,7 +39,7 @@ const Result = ({ images, name }) => {
             src={image ? image : "https://via.placeholder.com/150"}
             alt={name}
           />
-          <Text>{name}</Text>
+          <Text textAlign="left">{name}</Text>
         </Flex>
       </Box>
     </Box>
@@ -77,14 +77,15 @@ const Search = () => {
   };
 
   return (
-    <Box w={{ base: "100%", lg: "48%" }} mb="32px">
+    <Box w={{ base: "100%", lg: "55%" }} mb="32px">
       <Heading mb="16px">Search</Heading>
-      <Flex w={{ base: "100%" }} mb="4px" justify="space-between">
-        <Box w="82%">
+      <Flex w={{ base: "100%" }} mb="4px">
+        <Box w="85%">
           <FormControl id="search">
             <FormLabel hidden={true}>Search by track or artist</FormLabel>
             <InputGroup>
-              <InputRightElement
+              <InputLeftElement
+                top="-2px"
                 pointerEvents="none"
                 children={<SearchIcon />}
               />

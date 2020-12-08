@@ -57,7 +57,7 @@ const Recommendations = () => {
   };
 
   return (
-    <Box w={{ base: "100%", lg: "48%" }} as="section" mb="128px">
+    <Box w={{ base: "100%", lg: "42%" }} as="section" mb="128px">
       {recentlyPlayed && (
         <Box w="100%" mb="32px">
           <Heading mb="16px">You've recently listened to</Heading>
