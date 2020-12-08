@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Input,
   FormControl,
   FormLabel,
-  Button,
+  Image,
   Select,
   Flex,
   Box,
@@ -13,43 +13,54 @@ import {
   InputRightElement,
   List,
 } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 import useFetch from "../../utils/hooks/useFetch";
-import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
 import ResultsCard from "../card/results";
 
 const Result = ({ images, name }) => {
-  // const image = images[0].url;
+  let image;
+  if (images[0] !== undefined) {
+    image = images[0].url;
+  }
   return (
     <Box
       as="li"
       listStyleType="none"
-      w="100%"
-      maxH="200px"
-      mb="16px"
-      // display="grid"
-      // placeItems="center"
+      // border="1px solid"
+      // borderColor="gray.300"
     >
-      <Flex>
-        <Text>{name}</Text>
-      </Flex>
+      <Box as="button" w="100%" p="8px" _hover={{ bg: "gray.100" }}>
+        <Flex>
+          <Image
+            mr="16px"
+            borderRadius="full"
+            boxSize="20px"
+            objectFit="cover"
+            src={images[0] ? image : "https://via.placeholder.com/150"}
+            alt={name}
+          />
+          <Text>{name}</Text>
+        </Flex>
+      </Box>
     </Box>
   );
 };
 
 const Search = () => {
-  const { getSearchItem, artistResults } = useFetch();
+  const { getSearchItem, artistResults, q, setQ, setSelect } = useFetch();
   // setting some state that we can update and attach to getSearchItem variables
-  const [q, setQ] = useState();
-  const [select, setSelect] = useState("artist");
+  // const [q, setQ] = useState();
+  // const [select, setSelect] = useState("artist");
+
+  useEffect(() => {
+    if (q) {
+      getSearchItem();
+    }
+  }, [q]);
 
   // function to handle change in the input
   const handleChange = (e) => {
     setQ(e.target.value);
-    getSearchItem({
-      q: q,
-      select: select,
-    });
   };
 
   // function to handle the change in select
@@ -68,12 +79,13 @@ const Search = () => {
   return (
     <Box w="100%" mb="32px">
       <Heading>Search</Heading>
-      <Flex w={{ base: "100%" }}>
+      <Flex w={{ base: "100%" }} mb="4px">
         <FormControl id="search">
           <FormLabel hidden={true}>Search by track or artist</FormLabel>
           <InputGroup>
-            <InputRightElement pointerEvents="none" children={<FaSearch />} />
+            <InputRightElement pointerEvents="none" children={<SearchIcon />} />
             <Input
+              autoComplete="off"
               variant="flushed"
               type="text"
               placeholder="Search by track or artist"
@@ -92,8 +104,8 @@ const Search = () => {
           <option value="artist">Artist</option>
         </Select>
       </Flex>
-      {artistResults && (
-        <List>
+      {artistResults && q && (
+        <List overflowY="auto" maxH="500px">
           {artistResults.map((artist) => (
             <Result key={artist.id} {...artist} />
           ))}

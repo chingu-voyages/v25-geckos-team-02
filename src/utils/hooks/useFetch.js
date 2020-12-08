@@ -11,10 +11,12 @@ const useFetch = () => {
   const [songId, setSongId] = useState();
   const [recentlyPlayed, setRecentlyPlayed] = useState();
   const [recommendations, setRecommendations] = useState([]);
-  // const [q, setQ] = useState();
-  // const [select, setSelect] = useState();
-  const [trackResults, setTrackResults] = useState([]);
-  const [artistResults, setArtistResults] = useState([]);
+  const [q, setQ] = useState();
+  const [select, setSelect] = useState("artist");
+  const [trackResults, setTrackResults] = useState();
+  const [artistResults, setArtistResults] = useState();
+
+  console.log(q);
 
   const getUserDetails = () => {
     fetch("https://api.spotify.com/v1/me", {
@@ -57,20 +59,27 @@ const useFetch = () => {
       .catch((err) => console.log(err));
   };
 
-  const getSearchItem = (query) => {
+  const getSearchItem = () => {
     console.log("getSearchItem is here");
 
-    const { select, q } = query;
+    // const { select, q } = query;
 
     let url;
 
-    if (select === "track") {
+    if (q) {
       url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
+      console.log(url);
     }
 
-    if (select === "artist") {
-      url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
-    }
+    // if (select === "track") {
+    //   url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
+    //   console.log(url);
+    // }
+
+    // if (select === "artist") {
+    //   url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
+    //   console.log(url);
+    // }
 
     const getItems = async () => {
       const response = await fetch(url, {
@@ -94,7 +103,7 @@ const useFetch = () => {
           setTrackResults(data.tracks.items);
         }
         if (data.artists) {
-          console.log(data.artists.items);
+          console.log(data.artists.items, "getsearch");
           setArtistResults(data.artists.items);
         }
       })
@@ -104,6 +113,11 @@ const useFetch = () => {
   useEffect(getUserDetails, [accessToken]);
   useEffect(getRecentlyPlayed, [accessToken]);
   useEffect(getRecommendations, [artistId && songId]);
+  // useEffect(() => {
+  //   if (q) {
+  //     getSearchItem();
+  //   }
+  // }, [q]);
   useEffect(() => {
     setAuthToken(accessToken);
   }, [accessToken]);
@@ -120,8 +134,10 @@ const useFetch = () => {
     setAuthToken,
     trackResults,
     artistResults,
-    // setQ,
-    // setSelect,
+    q,
+    setQ,
+    select,
+    setSelect,
   };
 };
 
