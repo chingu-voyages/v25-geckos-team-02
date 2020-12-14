@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Text, Flex, Box } from "@chakra-ui/react";
-import useFetch from "../../../utils/hooks/useFetch";
+import useFetch from "../../utils/hooks/useFetch";
 import CardAvatar from "./CardAvatar";
 
 const ResultsCard = () => {

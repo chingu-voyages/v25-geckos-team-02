@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Flex, Box, Text, Image, Heading, IconButton } from "@chakra-ui/react";
-import useFetch from "../../../utils/hooks/useFetch";
+import useFetch from "../../utils/hooks/useFetch";
 import { MdPlaylistAdd } from "react-icons/md";
-import { convertMs } from "../../../utils";
+import { convertMs } from "../.././utils";
 
 const Card = ({ album, name, artists, duration_ms }) => {
   const image = album.images[0].url;
