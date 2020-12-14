@@ -17,11 +17,25 @@ import { SearchIcon } from "@chakra-ui/icons";
 import useFetch from "../../utils/hooks/useFetch";
 import ResultsCard from "../card/results";
 
-const Result = ({ images, name }) => {
+const Result = ({ artistImages, trackImages, artistNames, name, album }) => {
   let image;
-  if (images[0] !== undefined) {
-    image = images[0].url;
+  let artist;
+  if (artistImages) {
+    if (artistImages[0] !== undefined) {
+      image = artistImages[0].url;
+    }
   }
+
+  if (trackImages) {
+    if (trackImages[0] !== undefined) {
+      image = trackImages[0].url;
+    }
+  }
+
+  if (artistNames) {
+    artist = artistNames[0].name;
+  }
+
   return (
     <Box
       as="li"
@@ -39,7 +53,17 @@ const Result = ({ images, name }) => {
             src={image ? image : "https://via.placeholder.com/150"}
             alt={name}
           />
-          <Text textAlign="left">{name}</Text>
+          <Text mr="8px" textAlign="left">
+            {name}
+          </Text>
+          {artistNames && (
+            <Flex>
+              <Text mr="8px">-</Text>
+              <Text fontWeight="semibold" color="gray.500">
+                {artist}
+              </Text>
+            </Flex>
+          )}
         </Flex>
       </Box>
     </Box>
@@ -47,7 +71,14 @@ const Result = ({ images, name }) => {
 };
 
 const Search = () => {
-  const { getSearchItem, artistResults, q, setQ, setSelect } = useFetch();
+  const {
+    getSearchItem,
+    trackResults,
+    artistResults,
+    q,
+    setQ,
+    setSelect,
+  } = useFetch();
   // setting some state that we can update and attach to getSearchItem variables
   // const [q, setQ] = useState();
   // const [select, setSelect] = useState("artist");
@@ -57,6 +88,12 @@ const Search = () => {
       getSearchItem();
     }
   }, [q]);
+
+  useEffect(() => {
+    if (trackResults) {
+      console.log(trackResults);
+    }
+  }, [trackResults]);
 
   // function to handle change in the input
   const handleChange = (e) => {
@@ -114,7 +151,19 @@ const Search = () => {
       {artistResults && q && (
         <List overflowY="auto" maxH="320px">
           {artistResults.map((artist) => (
-            <Result key={artist.id} {...artist} />
+            <Result key={artist.id} artistImages={artist.images} {...artist} />
+          ))}
+        </List>
+      )}
+      {trackResults && q && (
+        <List overflowY="auto" maxH="320px">
+          {trackResults.map((track) => (
+            <Result
+              key={track.id}
+              artistNames={track.artists}
+              trackImages={track.album.images}
+              {...track}
+            />
           ))}
         </List>
       )}

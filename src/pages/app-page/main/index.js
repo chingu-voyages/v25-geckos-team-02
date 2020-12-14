@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Search from "../../../components/search";
 import Recommendations from "../../../components/card/recommendations";
 import { Box, Flex } from "@chakra-ui/react";
-import ResultsCard from "../../../components/card/results";
 
 const Main = () => {
   return (

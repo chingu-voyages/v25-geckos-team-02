@@ -1,5 +1,6 @@
 import queryString from "query-string";
 import { useState, useEffect } from "react";
+import shuffleArray from "../functions/shuffleArray";
 
 const parsed = queryString.parse(location.search);
 let accessToken = parsed.access_token;
@@ -16,7 +17,7 @@ const useFetch = () => {
   const [trackResults, setTrackResults] = useState();
   const [artistResults, setArtistResults] = useState();
 
-  console.log(q);
+  // console.log(q);
 
   const getUserDetails = () => {
     fetch("https://api.spotify.com/v1/me", {
@@ -35,11 +36,14 @@ const useFetch = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        const recentSongs = response.items.slice(0, 5);
-        setRecentlyPlayed(recentSongs);
-        setSongId(recentSongs.slice(0, 2).map((song) => song.track.id));
+        const shuffleSongs = shuffleArray(response.items);
+        // console.log("normal array", response.items);
+        console.log("shuffled array", shuffleSongs);
+        const recentPlayed = shuffleSongs.slice(0, 5);
+        setRecentlyPlayed(recentPlayed);
+        setSongId(recentPlayed.slice(0, 2).map((song) => song.track.id));
         setArtistId(
-          recentSongs.slice(0, 2).map((song) => song.track.artists[0].id)
+          recentPlayed.slice(0, 2).map((song) => song.track.artists[0].id)
         );
       })
       .catch((err) => console.log(err));
@@ -101,10 +105,12 @@ const useFetch = () => {
         if (data.tracks) {
           console.log(data.tracks.items);
           setTrackResults(data.tracks.items);
+          setArtistResults(null);
         }
         if (data.artists) {
           console.log(data.artists.items, "getsearch");
           setArtistResults(data.artists.items);
+          setTrackResults(null);
         }
       })
       .catch((err) => console.log(err));
