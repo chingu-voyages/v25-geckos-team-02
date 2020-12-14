@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import useFetch from "../../utils/hooks/useFetch";
-import ResultsCard from "../card/results";
 
 const Result = ({ artistImages, trackImages, artistNames, name, album }) => {
   let image;

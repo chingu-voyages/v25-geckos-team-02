@@ -1,5 +1,5 @@
 import React from "react";
-import Search from "../../../components/searchResults";
+import Search from "../../../components/search";
 import Recommendations from "../../../components/recommendations";
 import { Box, Flex } from "@chakra-ui/react";
 
