@@ -16,8 +16,13 @@ const useFetch = () => {
   const [select, setSelect] = useState("artist");
   const [trackResults, setTrackResults] = useState();
   const [artistResults, setArtistResults] = useState();
+  const [contextURI, setContextURI] = useState();
+  const [trackUri, setTrackUri] = useState();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isActive, setIsActive] = useState();
+  const [deviceId, setDeviceId] = useState();
 
-  // console.log(q);
+  // console.log(isActive);
 
   const getUserDetails = () => {
     fetch("https://api.spotify.com/v1/me", {
@@ -37,9 +42,8 @@ const useFetch = () => {
       .then((response) => response.json())
       .then((response) => {
         const shuffleSongs = shuffleArray(response.items);
-        // console.log("normal array", response.items);
-        console.log("shuffled array", shuffleSongs);
-        const recentPlayed = shuffleSongs.slice(0, 5);
+        const recentPlayed = shuffleSongs.slice(10, 15);
+        console.log(recentPlayed[0].track.uri);
         setRecentlyPlayed(recentPlayed);
         setSongId(recentPlayed.slice(0, 2).map((song) => song.track.id));
         setArtistId(
@@ -58,32 +62,18 @@ const useFetch = () => {
     )
       .then((response) => response.json())
       .then((response) => {
+        console.log(response.tracks);
         setRecommendations(response.tracks);
       })
       .catch((err) => console.log(err));
   };
 
   const getSearchItem = () => {
-    console.log("getSearchItem is here");
-
-    // const { select, q } = query;
-
     let url;
 
     if (q) {
       url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
-      console.log(url);
     }
-
-    // if (select === "track") {
-    //   url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
-    //   console.log(url);
-    // }
-
-    // if (select === "artist") {
-    //   url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
-    //   console.log(url);
-    // }
 
     const getItems = async () => {
       const response = await fetch(url, {
@@ -103,12 +93,10 @@ const useFetch = () => {
       .then((data) => {
         // setSearchResults(data);
         if (data.tracks) {
-          console.log(data.tracks.items);
           setTrackResults(data.tracks.items);
           setArtistResults(null);
         }
         if (data.artists) {
-          console.log(data.artists.items, "getsearch");
           setArtistResults(data.artists.items);
           setTrackResults(null);
         }
@@ -116,14 +104,138 @@ const useFetch = () => {
       .catch((err) => console.log(err));
   };
 
+  const setPlayback = () => {
+    let url;
+
+    if (contextURI) {
+      const startPlayback = async () => {
+        if (deviceId) {
+          url = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
+        } else {
+          url = "https://api.spotify.com/v1/me/player/play";
+        }
+
+        console.log(trackUri);
+        console.log(contextURI);
+        // console.log(isPlaying);
+
+        const reqUri = {
+          context_uri: contextURI,
+          offset: { uri: trackUri },
+        };
+
+        const response = await fetch(url, {
+          method: "PUT",
+          headers: { Authorization: "Bearer " + accessToken },
+          body: contextURI && JSON.stringify(reqUri),
+        });
+
+        if (response.status !== 204) {
+          throw new Error("cannot change data");
+        }
+      };
+
+      startPlayback().then(() => setIsPlaying(true));
+    }
+  };
+
+  const pausePlayback = () => {
+    const url = "https://api.spotify.com/v1/me/player/pause";
+
+    const setPause = async () => {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+
+      if (response.status !== 204) {
+        throw new Error("cannot change data");
+      }
+    };
+
+    setPause().then(() => {
+      setContextURI(null);
+      setIsPlaying(false);
+    });
+  };
+
+  const getCurrentPlayback = () => {
+    const getPlaybackData = async () => {
+      const response = await fetch("https://api.spotify.com/v1/me/player", {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+
+      const data = response.json();
+
+      return data;
+    };
+
+    getPlaybackData().then((data) => {
+      console.log(data);
+      setIsPlaying(data.is_playing);
+      setTrackUri(data.item.uri);
+    });
+  };
+
+  const getPlaybackDevice = () => {
+    fetch("https://api.spotify.com/v1/me/player/devices", {
+      headers: { Authorization: "Bearer " + accessToken },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response.devices);
+        const devices = response.devices;
+        const device = devices[0];
+        setDeviceId(device.id);
+        setIsActive(device.is_active);
+      });
+  };
+
+  const transferPlayback = () => {
+    const url = "https://api.spotify.com/v1/me/player";
+    const data = {
+      device_ids: [`${deviceId}`],
+    };
+
+    fetch(url, {
+      method: "PUT",
+      headers: { Authorization: "Bearer " + accessToken },
+      body: JSON.stringify(data),
+    });
+  };
+
   useEffect(getUserDetails, [accessToken]);
   useEffect(getRecentlyPlayed, [accessToken]);
-  useEffect(getRecommendations, [artistId && songId]);
-  // useEffect(() => {
-  //   if (q) {
-  //     getSearchItem();
-  //   }
-  // }, [q]);
+
+  useEffect(() => {
+    getCurrentPlayback();
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (deviceId) {
+      transferPlayback();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (artistId && songId) {
+      getRecommendations();
+    }
+  }, [artistId, songId]);
+
+  useEffect(() => {
+    if (contextURI) {
+      setPlayback();
+    }
+    if (contextURI === null) {
+      setPlayback();
+    }
+  }, [contextURI]);
+
+  useEffect(() => {
+    getPlaybackDevice();
+  }, []);
+
   useEffect(() => {
     setAuthToken(accessToken);
   }, [accessToken]);
@@ -144,6 +256,15 @@ const useFetch = () => {
     setQ,
     select,
     setSelect,
+    contextURI,
+    setContextURI,
+    trackUri,
+    setTrackUri,
+    setPlayback,
+    isPlaying,
+    setIsPlaying,
+    isActive,
+    pausePlayback,
   };
 };
 
