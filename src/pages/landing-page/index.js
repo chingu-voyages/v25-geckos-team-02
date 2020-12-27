@@ -12,13 +12,9 @@ import { Button, Heading, Text } from "@chakra-ui/react";
 
 const LoginButton = () => {
   return (
-<<<<<<< HEAD
+
     <a href="https://v25-geckos-server.herokuapp.com/login">
       <button>Login to spotify</button>
-=======
-    <a href="http://localhost:8888/login">
-      <Heading as="h1" size="3xl" color="#44778c">Listen now</Heading>
->>>>>>> e265272aa0595a450bdf467856cbaacfa2838f33
     </a>
   );
 };
