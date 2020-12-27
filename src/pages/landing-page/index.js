@@ -13,9 +13,7 @@ import { Button, Heading, Text } from "@chakra-ui/react";
 const LoginButton = () => {
   return (
     <a href="http://localhost:8888/login">
-      <button>
-        <Heading as="h1" size="4xl">Listen now</Heading>
-      </button>
+      <Heading as="h1" size="3xl" color="#44778c">Listen now</Heading>
     </a>
   );
 };

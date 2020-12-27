@@ -16,8 +16,3 @@ const SectionOneContent = () => {
 
 export default SectionOneContent;
 
-// <Button colorScheme="blue" mt="40px" onClick={() => this.props.fullpageApi.moveSectionDown()}>
-  // Find out more
-// </Button>
-
-
