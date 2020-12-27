@@ -8,16 +8,16 @@ const SectionOneContent = () => {
 
   return (
     <div className="section-1">
-      <Heading as="h1" size="4xl">The A-List</Heading>
+      <Heading as="h1" size="4xl" fontSize='10em'>The A-List</Heading>
       <Heading as="h2" size="xl" mt="40px">Discover new songs and artists based on your favourites</Heading>
-      <Button colorScheme="blue" mt="40px" onClick={() => this.props.fullpageApi.moveSectionDown()}>
-        Find out more
-      </Button>
     </div>
   );
 }
 
 export default SectionOneContent;
 
+// <Button colorScheme="blue" mt="40px" onClick={() => this.props.fullpageApi.moveSectionDown()}>
+  // Find out more
+// </Button>
 
 
