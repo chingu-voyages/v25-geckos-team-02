@@ -1,11 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import Pages from "./pages";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Pages />
   </React.StrictMode>,
   document.getElementById("root")
-  );
-
+);

@@ -5,12 +5,14 @@ const parsed = queryString.parse(location.search);
 let accessToken = parsed.access_token;
 
 const useFetch = () => {
+  const [username, setUserName] = useState();
+  const [authToken, setAuthToken] = useState();
   const [artistId, setArtistId] = useState();
   const [songId, setSongId] = useState();
-  const [recommendations, setRecommendations] = useState();
-
-  console.log(songId, "song ids");
-  console.log(artistId, "artist ids");
+  const [recentlyPlayed, setRecentlyPlayed] = useState();
+  const [recommendations, setRecommendations] = useState([]);
+  const [trackResults, setTrackResults] = useState();
+  const [artistResults, setArtistResults] = useState();
 
   const getUserDetails = () => {
     fetch("https://api.spotify.com/v1/me", {
@@ -18,8 +20,7 @@ const useFetch = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
-        console.log(response.display_name);
+        setUserName(response.display_name);
       })
       .catch((err) => console.log(err));
   };
@@ -30,10 +31,12 @@ const useFetch = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        const recent_songs = response.items.slice(0, 5);
-        setSongId(recent_songs.slice(0, 2).map((song) => song.track.id));
+        const recentSongs = response.items.slice(0, 5);
+        console.log(recentSongs);
+        setRecentlyPlayed(recentSongs);
+        setSongId(recentSongs.slice(0, 2).map((song) => song.track.id));
         setArtistId(
-          recent_songs.slice(0, 2).map((song) => song.track.artists[0].id)
+          recentSongs.slice(0, 2).map((song) => song.track.artists[0].id)
         );
       })
       .catch((err) => console.log(err));
@@ -48,33 +51,67 @@ const useFetch = () => {
     )
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setRecommendations(response.tracks);
+        console.log(response);
       })
       .catch((err) => console.log(err));
   };
 
-  const getSearchitem = () => {
-    fetch(`https://api.spotify.com/v1/search?`, {
+  const getSearchItem = (query) => {
+    console.log("getSearchItem is here");
+
+    // destructured variables being set to query so we can change them later
+    const { select, q } = query;
+    // making url available in this scope so if statements can change the value & fetch function can access those changed values
+    let url;
+
+    //conditional logic that decides which url to fire off depending on which value we have
+    if (select === "track") {
+      url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
+    }
+
+    if (select === "artist") {
+      url = `https://api.spotify.com/v1/search?q=${q}&type=${select}`;
+    }
+
+    fetch(url, {
       headers: { Authorization: "Bearer " + accessToken },
     })
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        //setSearchResults(response);
+        if (response.tracks) {
+          console.log("tracks!!!");
+          setTrackResults(response.tracks.items);
+        }
+        if (response.artists) {
+          console.log("artists!!!");
+          setArtistResults(response.artists.items);
+        }
       })
       .catch((err) => console.log(err));
   };
 
-  useEffect(getUserDetails, []);
-  useEffect(getRecentlyPlayed, []);
+  useEffect(getUserDetails, [accessToken]);
+  useEffect(getRecentlyPlayed, [accessToken]);
   useEffect(getRecommendations, [artistId && songId]);
+  useEffect(() => {
+    setAuthToken(accessToken);
+  }, [accessToken]);
 
   return {
     getUserDetails,
     getRecentlyPlayed,
     getRecommendations,
-    getSearchitem,
+    getSearchItem,
+    recentlyPlayed,
     recommendations,
+    username,
+    authToken,
+    setAuthToken,
+    trackResults,
+    artistResults,
   };
 };
 
